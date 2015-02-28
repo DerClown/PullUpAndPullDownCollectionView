@@ -77,7 +77,12 @@
     UICollectionReusableView *reusableView;
     if ([kind isEqualToString:CHTCollectionElementKindSectionFooter]) {
         reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:CHTCollectionElementKindSectionFooter forIndexPath:indexPath];
-        _refreshFooterView = (CollectionRefreshFooterView *)reusableView;
+        if (self.isShowRefreshFooterView && !_refreshFooterView) {
+            _refreshFooterView = (CollectionRefreshFooterView *)reusableView;
+            if (_isPullUpLoading) {
+                [_refreshFooterView setStatus:PullUpRefreshLoading];
+            }
+        }
     } else {
         reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:CHTCollectionElementKindSectionHeader forIndexPath:indexPath];
     }
