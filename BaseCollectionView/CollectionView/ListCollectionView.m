@@ -22,6 +22,10 @@
     collectionLayout.columnCount = 2;
     collectionLayout.headerHeight = 50;
     collectionLayout.sectionInset = UIEdgeInsetsMake(5, 10, 5, 10);
+    
+    UICollectionViewFlowLayoutInvalidationContext *invalidationContext = [[UICollectionViewFlowLayoutInvalidationContext alloc] init];
+    [invalidationContext invalidateSupplementaryElementsOfKind:UICollectionElementKindSectionHeader atIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:1]]];
+    [collectionLayout invalidateLayoutWithContext:invalidationContext];
     return [self initWithFrame:frame collectionViewLayout:collectionLayout delegate:delegate];
 }
 
@@ -39,18 +43,14 @@
 #pragma mark - UICollectionView Delegate && Datasource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 2;
+    return 1;
 }
 
 /**
  *  section返回cell的个数
  */
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 3;
-    } else{
-        return self.valueContexts.count;
-    }
+    return self.valueContexts.count;
 }
 
 /**
@@ -107,6 +107,10 @@
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake((self.frame.size.width - 30) / 2, 100);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout heightForFooterInSection:(NSInteger)section {
+    return 50.0f;
 }
 
 @end

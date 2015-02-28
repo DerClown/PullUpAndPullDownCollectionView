@@ -23,10 +23,13 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     _collectionView = [[ListCollectionView alloc] initWithFrame:self.view.bounds delegate:self];
-    _collectionView.scrollEnabled = YES;
-    _collectionView.isShowRefreshHeaderView = YES;
+    //_collectionView.scrollEnabled = YES;
+    _collectionView.isShowRefreshFooterView = YES;
+    //_collectionView.isShowRefreshHeaderView = YES;
+    
     _collectionView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_collectionView];
+    
     _collectionView.valueContexts = @[@"1",@"1",@"2",@"1",@"1",@"2",@"1",@"1",@"2",@"1",@"2",@"1",@"1",@"2"];
     __block UIAlertView *alert;
     __block NSArray *array = _collectionView.valueContexts;
@@ -36,7 +39,13 @@
     };
 }
 
-#pragma mark - 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    //[_collectionView startPullDown];
+}
+
+#pragma mark - BaseCollectionViewDelegate
 
 - (void)collectionViewStartPullDownLoading:(BaseCollectionView *)collectionView {
     //开始加载数据的方法，[self loadingData]; 暂时又下面的方法代替

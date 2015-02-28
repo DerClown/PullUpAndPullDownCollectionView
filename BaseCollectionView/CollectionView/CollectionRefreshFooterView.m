@@ -22,18 +22,19 @@
 }
 
 - (void)config {
-    //这里我用你最习惯的方式写
     if (!_indicatorView) {
         _indicatorView = [[UIActivityIndicatorView alloc] init];
         _indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+        _indicatorView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_indicatorView];
     }
     
     if (!_statusLabel) {
         _statusLabel = [[UILabel alloc] init];
         _statusLabel.backgroundColor = [UIColor clearColor];
+        _statusLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _statusLabel.text = @"加载更多";
-        _statusLabel.textColor = [UIColor grayColor];
+        _statusLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
         _statusLabel.font = [UIFont boldSystemFontOfSize:20];
         [self addSubview:_statusLabel];
     }

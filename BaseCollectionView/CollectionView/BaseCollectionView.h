@@ -89,4 +89,9 @@ typedef void (^CollectionCellSelectBlock)(NSIndexPath *indexPath);
  */
 - (void)pullUpDidFinishLoadingWithStatus:(PullUpRefreshStatus)status;
 
+/**
+ *  自动下拉刷新
+ */
+- (void)startPullDown;
+
 @end

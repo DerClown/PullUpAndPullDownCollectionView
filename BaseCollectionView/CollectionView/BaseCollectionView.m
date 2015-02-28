@@ -25,13 +25,29 @@
     _refreshFooterView.status = status;
 }
 
+- (void)startPullDown {
+    [UIView animateWithDuration:0.25 animations:^{
+        [self setContentOffset:CGPointMake(0, -65) animated:NO];
+    } completion:^(BOOL finished) {
+        [self scrollViewDidEndDragging:self willDecelerate:NO];
+    }];
+}
+
 #pragma mark UIScrollViewDelegate
 
 /**
  *  下面两个是方法是用于EGO判断拖拽的ScrollView到达一定的高度时候，才改变加载的状态，去出发加载数据的协议方法
  */
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    /**
+     *  egoRefresh did scroll
+     */
     [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+    /**
+     *  pull up did scroll
+     */
+    [self pullUpScrollViewDidScroll:scrollView];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
@@ -39,9 +55,11 @@
 }
 
 /**
- *  这个是用于上拉加载判断用到的ScorllView的协议
+ *  上拉加载数据
+ *
+ *  @param scrollView self
  */
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+- (void)pullUpScrollViewDidScroll:(UIScrollView *)scrollView {
     /**
      *  判断当前是否正在加载中，yes就返回；或者判断是否所有数据都加在完成，加载完成就返回！不触发上拉加载协议方法
      */
@@ -49,7 +67,7 @@
         
         //scrollView.contentOffset.y > (scrollView.contentSize.height - scrollView.frame.size.height + 25) 这个我来说明一下scrollView.contentSize.height - scrollView.frame.size.height这段剪出来的就是CollctionView的固定高度；加上25就是为了让scrollView.contentOffset.y 超过 CollctionView的固定高度 + 25个像素的时候，就触发上拉加载协议方法
         
-        if (scrollView.contentOffset.y > (scrollView.contentSize.height - scrollView.frame.size.height + 25)) {
+        if (scrollView.contentOffset.y > (scrollView.contentSize.height - scrollView.frame.size.height + 50)) {
             if (self.aDelegate && [self.aDelegate respondsToSelector:@selector(collectionViewStartPullUpLoading:)]) {
                 [self.aDelegate collectionViewStartPullUpLoading:self];
             }
